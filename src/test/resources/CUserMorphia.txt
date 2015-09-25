@@ -1,0 +1,28 @@
+package ch.rasc.constgen;
+
+import java.lang.String;
+
+public final class CUserMorphia {
+  public static final String authorities = "authorities";
+
+  public static final String email = "email";
+
+  public static final String enabled = "enabled";
+
+  public static final String failedLogins = "failedLogins";
+
+  public static final String firstName = "firstName";
+
+  public static final String id = "id";
+
+  public static final String lastName = "lastName";
+
+  public static final String locale = "locale";
+
+  public static final String passwordHash = "pwhash";
+
+  public static final String passwordResetToken = "passwordResetToken";
+
+  public static final String passwordResetTokenValidUntil = "passwordResetTokenValidUntil";
+}
+
