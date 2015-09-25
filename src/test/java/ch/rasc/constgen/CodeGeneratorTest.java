@@ -35,14 +35,15 @@ public class CodeGeneratorTest {
 
 			String code = sb.toString();
 
-			InputStream is = getClass().getResourceAsStream("/CUserSD.txt");
-			String expected = new String(StreamUtils.copyToByteArray(is),
-					StandardCharsets.UTF_8);
+			try (InputStream is = getClass().getResourceAsStream("/CUserSD.txt")) {
+				String expected = new String(StreamUtils.copyToByteArray(is),
+						StandardCharsets.UTF_8);
 
-			code = code.replace("\r", "").trim();
-			expected = expected.replace("\r", "").trim();
+				code = code.replace("\r", "").trim();
+				expected = expected.replace("\r", "").trim();
 
-			Assert.assertEquals(expected, code);
+				Assert.assertEquals(expected, code);
+			}
 
 		}
 		catch (IOException e) {
@@ -60,14 +61,15 @@ public class CodeGeneratorTest {
 
 			String code = sb.toString();
 
-			InputStream is = getClass().getResourceAsStream("/CUserMorphia.txt");
-			String expected = new String(StreamUtils.copyToByteArray(is),
-					StandardCharsets.UTF_8);
+			try (InputStream is = getClass().getResourceAsStream("/CUserMorphia.txt")) {
+				String expected = new String(StreamUtils.copyToByteArray(is),
+						StandardCharsets.UTF_8);
 
-			code = code.replace("\r", "").trim();
-			expected = expected.replace("\r", "").trim();
+				code = code.replace("\r", "").trim();
+				expected = expected.replace("\r", "").trim();
 
-			Assert.assertEquals(expected, code);
+				Assert.assertEquals(expected, code);
+			}
 
 		}
 		catch (IOException e) {
