@@ -15,66 +15,28 @@
  */
 package ch.rasc.constgen;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-
-import org.junit.Assert;
 import org.junit.Test;
-import org.springframework.util.StreamUtils;
+
+import com.google.common.truth.Truth;
+import com.google.testing.compile.JavaFileObjects;
+import com.google.testing.compile.JavaSourceSubjectFactory;
 
 public class CodeGeneratorTest {
 
 	@Test
 	public void verifySpringData() {
-		CodeGenerator cd = new CodeGenerator(UserSD.class);
-
-		StringBuilder sb = new StringBuilder();
-		try {
-			cd.generate(sb);
-
-			String code = sb.toString();
-
-			try (InputStream is = getClass().getResourceAsStream("/CUserSD.txt")) {
-				String expected = new String(StreamUtils.copyToByteArray(is),
-						StandardCharsets.UTF_8);
-
-				code = code.replace("\r", "").trim();
-				expected = expected.replace("\r", "").trim();
-
-				Assert.assertEquals(expected, code);
-			}
-
-		}
-		catch (IOException e) {
-			Assert.fail(e.getMessage());
-		}
+		Truth.assert_().about(JavaSourceSubjectFactory.javaSource())
+				.that(JavaFileObjects.forResource("UserSD.java"))
+				.processedWith(new ConstAnnotationProcessor()).compilesWithoutError()
+				.and().generatesSources(JavaFileObjects.forResource("CUserSD.java"));
 	}
 
 	@Test
 	public void verifyMorphia() {
-		CodeGenerator cd = new CodeGenerator(UserMorphia.class);
-
-		StringBuilder sb = new StringBuilder();
-		try {
-			cd.generate(sb);
-
-			String code = sb.toString();
-
-			try (InputStream is = getClass().getResourceAsStream("/CUserMorphia.txt")) {
-				String expected = new String(StreamUtils.copyToByteArray(is),
-						StandardCharsets.UTF_8);
-
-				code = code.replace("\r", "").trim();
-				expected = expected.replace("\r", "").trim();
-
-				Assert.assertEquals(expected, code);
-			}
-
-		}
-		catch (IOException e) {
-			Assert.fail(e.getMessage());
-		}
+		Truth.assert_().about(JavaSourceSubjectFactory.javaSource())
+				.that(JavaFileObjects.forResource("UserMorphia.java"))
+				.processedWith(new ConstAnnotationProcessor()).compilesWithoutError()
+				.and().generatesSources(JavaFileObjects.forResource("CUserMorphia.java"));
 	}
 
 }

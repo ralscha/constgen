@@ -78,7 +78,13 @@
 			<artifactId>morphia</artifactId>
 			<version>1.0.1</version>
 			<scope>test</scope>
-		</dependency>		
+		</dependency>
+		<dependency>
+		  <groupId>com.google.testing.compile</groupId>
+		  <artifactId>compile-testing</artifactId>
+		  <version>0.7</version>
+		  <scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -88,6 +94,7 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.3</version>
 				<configuration>
+				    <proc>none</proc>
 					<source>1.8</source>
 					<target>1.8</target>
 				</configuration>
@@ -214,11 +221,10 @@
 						<email>ralphschaer@gmail.com</email>
 					</properties>
 					<excludes>
-						<exclude>**/*.xml</exclude>
-						<exclude>**/*.txt</exclude>
+					    <exclude>**/*.xml</exclude>
 						<exclude>**/*.md</exclude>
-						<exclude>**/*.json</exclude>
 						<exclude>**/*.py</exclude>
+						<exclude>LICENSE</exclude>
 						<exclude>.travis.yml</exclude>
 						<exclude>**/.gitignore</exclude>
 					</excludes>

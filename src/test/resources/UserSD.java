@@ -18,25 +18,27 @@ package ch.rasc.constgen;
 import java.util.Date;
 import java.util.List;
 
-import org.mongodb.morphia.annotations.Entity;
-import org.mongodb.morphia.annotations.Transient;
-import org.mongodb.morphia.annotations.Property;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
-@Entity
-public class UserMorphia {
+@Document
+public class UserSD {
 
 	private String id;
 
 	private String lastName;
 
+	@Field
 	private String firstName;
 
-	@Property
+	@Indexed(unique = true)
 	private String email;
 
 	private List<String> authorities;
 
-	@Property("pwhash")
+	@Field("pwHash")
 	private String passwordHash;
 
 	private String locale;
@@ -55,7 +57,7 @@ public class UserMorphia {
 	private Date passwordResetTokenValidUntil;
 
 	public String getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(String id) {
@@ -63,7 +65,7 @@ public class UserMorphia {
 	}
 
 	public String getLastName() {
-		return lastName;
+		return this.lastName;
 	}
 
 	public void setLastName(String lastName) {
@@ -71,7 +73,7 @@ public class UserMorphia {
 	}
 
 	public String getFirstName() {
-		return firstName;
+		return this.firstName;
 	}
 
 	public void setFirstName(String firstName) {
@@ -79,7 +81,7 @@ public class UserMorphia {
 	}
 
 	public String getEmail() {
-		return email;
+		return this.email;
 	}
 
 	public void setEmail(String email) {
@@ -87,7 +89,7 @@ public class UserMorphia {
 	}
 
 	public List<String> getAuthorities() {
-		return authorities;
+		return this.authorities;
 	}
 
 	public void setAuthorities(List<String> authorities) {
@@ -95,7 +97,7 @@ public class UserMorphia {
 	}
 
 	public String getPasswordHash() {
-		return passwordHash;
+		return this.passwordHash;
 	}
 
 	public void setPasswordHash(String passwordHash) {
@@ -103,7 +105,7 @@ public class UserMorphia {
 	}
 
 	public String getLocale() {
-		return locale;
+		return this.locale;
 	}
 
 	public void setLocale(String locale) {
@@ -111,7 +113,7 @@ public class UserMorphia {
 	}
 
 	public boolean isEnabled() {
-		return enabled;
+		return this.enabled;
 	}
 
 	public void setEnabled(boolean enabled) {
@@ -119,7 +121,7 @@ public class UserMorphia {
 	}
 
 	public int getFailedLogins() {
-		return failedLogins;
+		return this.failedLogins;
 	}
 
 	public void setFailedLogins(int failedLogins) {
@@ -127,7 +129,7 @@ public class UserMorphia {
 	}
 
 	public Date getLockedOutUntil() {
-		return lockedOutUntil;
+		return this.lockedOutUntil;
 	}
 
 	public void setLockedOutUntil(Date lockedOutUntil) {
@@ -135,7 +137,7 @@ public class UserMorphia {
 	}
 
 	public Date getLastAccess() {
-		return lastAccess;
+		return this.lastAccess;
 	}
 
 	public void setLastAccess(Date lastAccess) {
@@ -143,7 +145,7 @@ public class UserMorphia {
 	}
 
 	public String getPasswordResetToken() {
-		return passwordResetToken;
+		return this.passwordResetToken;
 	}
 
 	public void setPasswordResetToken(String passwordResetToken) {
@@ -151,7 +153,7 @@ public class UserMorphia {
 	}
 
 	public Date getPasswordResetTokenValidUntil() {
-		return passwordResetTokenValidUntil;
+		return this.passwordResetTokenValidUntil;
 	}
 
 	public void setPasswordResetTokenValidUntil(Date passwordResetTokenValidUntil) {

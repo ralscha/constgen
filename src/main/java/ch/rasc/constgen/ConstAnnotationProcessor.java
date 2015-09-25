@@ -15,7 +15,6 @@
  */
 package ch.rasc.constgen;
 
-import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
@@ -64,8 +63,8 @@ public class ConstAnnotationProcessor extends AbstractProcessor {
 				try {
 					TypeElement typeElement = (TypeElement) element;
 
-					String qualifiedName = typeElement.getQualifiedName().toString();
-					CodeGenerator codeGen = new CodeGenerator(qualifiedName);
+					CodeGenerator codeGen = new CodeGenerator(typeElement,
+							this.processingEnv.getElementUtils());
 
 					FileObject fo = this.processingEnv.getFiler().createResource(
 							StandardLocation.SOURCE_OUTPUT, codeGen.getPackageName(),
@@ -77,11 +76,7 @@ public class ConstAnnotationProcessor extends AbstractProcessor {
 					}
 
 				}
-				catch (ClassNotFoundException e) {
-					this.processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR,
-							e.getMessage());
-				}
-				catch (IOException e) {
+				catch (Exception e) {
 					this.processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR,
 							e.getMessage());
 				}

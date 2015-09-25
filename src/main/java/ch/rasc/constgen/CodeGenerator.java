@@ -16,14 +16,19 @@
 package ch.rasc.constgen;
 
 import java.io.IOException;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.Collections;
 import java.util.List;
 
+import javax.lang.model.element.AnnotationMirror;
+import javax.lang.model.element.Element;
+import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.Modifier;
+import javax.lang.model.element.Name;
+import javax.lang.model.element.PackageElement;
+import javax.lang.model.element.TypeElement;
+import javax.lang.model.element.VariableElement;
+import javax.lang.model.util.Elements;
 
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
@@ -32,20 +37,20 @@ import com.squareup.javapoet.TypeSpec.Builder;
 
 public class CodeGenerator {
 
-	private final Class<?> clazz;
+	private final TypeElement typeElement;
 
 	private String packageName;
 
 	private String className;
 
-	public CodeGenerator(Class<?> clazz) {
-		this.clazz = clazz;
-		this.packageName = clazz.getPackage().getName();
-		this.className = "C" + clazz.getSimpleName();
-	}
+	private final Elements elements;
 
-	public CodeGenerator(String qualifiedName) throws ClassNotFoundException {
-		this(Class.forName(qualifiedName));
+	public CodeGenerator(TypeElement typeElement, Elements elements) {
+		this.typeElement = typeElement;
+		this.packageName = ((PackageElement) typeElement.getEnclosingElement())
+				.getQualifiedName().toString();
+		this.className = "C" + typeElement.getSimpleName();
+		this.elements = elements;
 	}
 
 	public String getPackageName() {
@@ -68,10 +73,10 @@ public class CodeGenerator {
 		Builder classBuilder = TypeSpec.classBuilder(this.className);
 		classBuilder.addModifiers(Modifier.PUBLIC, Modifier.FINAL);
 
-		for (Field field : collectFields()) {
-			FieldSpec fieldSpec = FieldSpec.builder(String.class, field.getName())
+		for (Constant constant : collectFields()) {
+			FieldSpec fieldSpec = FieldSpec.builder(String.class, constant.getName())
 					.addModifiers(Modifier.PUBLIC, Modifier.FINAL, Modifier.STATIC)
-					.initializer("$S", getKeyName(field)).build();
+					.initializer("$S", constant.getValue()).build();
 
 			classBuilder.addField(fieldSpec);
 		}
@@ -81,46 +86,37 @@ public class CodeGenerator {
 		javaFile.writeTo(appendable);
 	}
 
-	private static String getKeyName(Field field) {
-		for (Annotation annotation : field.getAnnotations()) {
-			Class<? extends Annotation> annotationType = annotation.annotationType();
-			String name = annotationType.getName();
-			if (name.equals("org.springframework.data.mongodb.core.mapping.Field")
-					|| name.equals("org.mongodb.morphia.annotations.Property")) {
-				String value = (String) getValue(annotation, "value");
-				if (value != null && !".".equals(value) && !"".equals(value.trim())) {
-					return value;
+	private List<Constant> collectFields() {
+		List<Constant> fields = new ArrayList<>();
+
+		for (Element el : this.typeElement.getEnclosedElements()) {
+			if (el.getKind() == ElementKind.FIELD) {
+
+				VariableElement varEl = (VariableElement) el;
+				if (!isTransient(varEl)) {
+					String value = getValue(varEl);
+					fields.add(new Constant(el.getSimpleName().toString(), value));
 				}
+
 			}
 		}
 
-		return field.getName();
-	}
-
-	private List<Field> collectFields() {
-		List<Field> fields = new ArrayList<>();
-		Field[] allFields = this.clazz.getDeclaredFields();
-		for (Field field : allFields) {
-			if (!isTransient(field)) {
-				fields.add(field);
-			}
-		}
-
-		fields.sort(Comparator.comparing(Field::getName));
+		Collections.sort(fields);
 		return fields;
 	}
 
-	private static boolean isTransient(Field field) {
-		if (java.lang.reflect.Modifier.isTransient(field.getModifiers())) {
+	private boolean isTransient(VariableElement el) {
+		if (el.getModifiers().contains(Modifier.TRANSIENT)) {
 			return true;
 		}
 
-		for (Annotation annotation : field.getAnnotations()) {
-			Class<? extends Annotation> annotationType = annotation.annotationType();
-
-			String name = annotationType.getName();
-			if (name.equals("org.springframework.data.annotation.Transient")
-					|| name.equals("org.mongodb.morphia.annotations.Transient")) {
+		for (AnnotationMirror am : this.elements.getAllAnnotationMirrors(el)) {
+			Name qualifiedName = ((TypeElement) am.getAnnotationType().asElement())
+					.getQualifiedName();
+			if (qualifiedName
+					.contentEquals("org.springframework.data.annotation.Transient")
+					|| qualifiedName
+							.contentEquals("org.mongodb.morphia.annotations.Transient")) {
 				return true;
 			}
 		}
@@ -128,21 +124,28 @@ public class CodeGenerator {
 		return false;
 	}
 
-	public static Object getValue(Annotation annotation, String attributeName) {
-		try {
-			Method method = annotation.annotationType().getDeclaredMethod(attributeName);
-			if ((!java.lang.reflect.Modifier.isPublic(method.getModifiers())
-					|| !java.lang.reflect.Modifier
-							.isPublic(method.getDeclaringClass().getModifiers())
-					|| java.lang.reflect.Modifier.isFinal(method.getModifiers()))
-					&& !method.isAccessible()) {
-				method.setAccessible(true);
+	private String getValue(VariableElement el) {
+		String alternateValue = null;
+		for (AnnotationMirror am : this.elements.getAllAnnotationMirrors(el)) {
+			Name qualifiedName = ((TypeElement) am.getAnnotationType().asElement())
+					.getQualifiedName();
+			if (qualifiedName
+					.contentEquals("org.springframework.data.mongodb.core.mapping.Field")
+					|| qualifiedName
+							.contentEquals("org.mongodb.morphia.annotations.Property")) {
+
+				alternateValue = am.getElementValues().entrySet().stream()
+						.filter(e -> e.getKey().getSimpleName().toString()
+								.equals("value"))
+						.map(e -> (String) e.getValue().getValue())
+						.filter(s -> !".".equals(s) && !"".equals(s.trim())).findAny()
+						.orElse(null);
 			}
-			return method.invoke(annotation);
 		}
-		catch (Exception ex) {
-			return null;
+		if (alternateValue == null) {
+			return el.getSimpleName().toString();
 		}
+		return alternateValue;
 	}
 
 }
