@@ -102,7 +102,7 @@ This configuration will write the C classes to the directory ```target/generated
 ```
 
 
-## CHANGELOG
+## Changelog
 
 ### 1.0.0 - September 26, 2015
   * Initial release
