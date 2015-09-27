@@ -25,7 +25,6 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.Name;
-import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.util.Elements;
@@ -47,8 +46,8 @@ public class CodeGenerator {
 
 	public CodeGenerator(TypeElement typeElement, Elements elements) {
 		this.typeElement = typeElement;
-		this.packageName = ((PackageElement) typeElement.getEnclosingElement())
-				.getQualifiedName().toString();
+		this.packageName = elements.getPackageOf(typeElement).getQualifiedName()
+				.toString();
 		this.className = "C" + typeElement.getSimpleName();
 		this.elements = elements;
 	}
@@ -93,7 +92,7 @@ public class CodeGenerator {
 			if (el.getKind() == ElementKind.FIELD) {
 
 				VariableElement varEl = (VariableElement) el;
-				if (!isTransient(varEl)) {
+				if (!isTransient(varEl) && !isStatic(varEl)) {
 					String value = getValue(varEl);
 					fields.add(new Constant(el.getSimpleName().toString(), value));
 				}
@@ -103,6 +102,13 @@ public class CodeGenerator {
 
 		Collections.sort(fields);
 		return fields;
+	}
+
+	private static boolean isStatic(VariableElement el) {
+		if (el.getModifiers().contains(Modifier.STATIC)) {
+			return true;
+		}
+		return false;
 	}
 
 	private boolean isTransient(VariableElement el) {

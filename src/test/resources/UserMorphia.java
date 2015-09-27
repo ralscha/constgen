@@ -25,6 +25,8 @@ import org.mongodb.morphia.annotations.Transient;
 @Entity
 public class UserMorphia {
 
+	public static final String aStaticVar = "MorphiaTest";
+	
 	private String id;
 
 	private String lastName;

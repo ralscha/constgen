@@ -26,6 +26,8 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Document
 public class UserSD {
 
+	public static final String aStaticVar = "TEST";
+	
 	private String id;
 
 	private String lastName;
