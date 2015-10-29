@@ -40,22 +40,22 @@ The C classes help you to make this process a little less error prone. In an IDE
 
 *With String*
 ```
-		User user = mongoTemplate.findAndModify(
-				Query.query(Criteria.where("email").is("test@test.com")
-				                    .and("deleted").is(false)),
-				Update.update("passwordResetTokenValidUntil", new Date())
-				      .set("passwordResetToken", "test_token"),
-				FindAndModifyOptions.options().returnNew(true), User.class);
+	User user = mongoTemplate.findAndModify(
+			Query.query(Criteria.where("email").is("test@test.com")
+			                    .and("deleted").is(false)),
+			Update.update("passwordResetTokenValidUntil", new Date())
+			      .set("passwordResetToken", "test_token"),
+			FindAndModifyOptions.options().returnNew(true), User.class);
 ```		
 
 *With C class*		
 ```		
-		User user = this.mongoTemplate.findAndModify(
-				Query.query(Criteria.where(CUser.email).is("test@test.com")
-				                    .and(CUser.deleted).is(false)),
-				Update.update(CUser.passwordResetTokenValidUntil, new Date())
-					  .set(CUser.passwordResetToken, token),
-				FindAndModifyOptions.options().returnNew(true), User.class);
+	User user = this.mongoTemplate.findAndModify(
+			Query.query(Criteria.where(CUser.email).is("test@test.com")
+			                    .and(CUser.deleted).is(false)),
+			Update.update(CUser.passwordResetTokenValidUntil, new Date())
+				  .set(CUser.passwordResetToken, token),
+			FindAndModifyOptions.options().returnNew(true), User.class);
 ```
 
 
@@ -76,20 +76,35 @@ To activate the annotation processor you add the library as a dependency to your
 constgen does not need to present at runtime so the dependency can be marked as optional 
 and will not be included in an jar or war. 
 ```
-		<dependency>
-			<groupId>ch.rasc</groupId>
-			<artifactId>constgen</artifactId>
-			<version>1.0.1</version>
-			<optional>true</optional>
-		</dependency>
+	<dependency>
+		<groupId>ch.rasc</groupId>
+		<artifactId>constgen</artifactId>
+		<version>1.0.1</version>
+		<optional>true</optional>
+	</dependency>
 ```
 Instead of ```<optional>true</optional>``` the provided scope ```<scope>provided</scope>``` can be specified. 
-It has the same effect and marks the library as compile-time only dependency. 
+It has the same effect and marks the library as a compile-time only dependency. 
 
 The [immutable](http://immutables.github.io) project has a good description 
 on how to [use annotation processors in Eclipse and IntelliJ](http://immutables.github.io/apt.html).
 
-
+The Spring Boot Maven plugin includes dependencies that are optional or scope provided in the final jar. 
+To exclude constgen you need to add an exclude configuration.
+```
+	<plugin>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-maven-plugin</artifactId>
+		<configuration>
+			<excludes>
+				<exclude>
+					<groupId>ch.rasc</groupId>
+					<artifactId>constgen</artifactId>
+				</exclude>
+			</excludes>
+		</configuration>
+	</plugin>
+```
 
 ## Changelog
 
