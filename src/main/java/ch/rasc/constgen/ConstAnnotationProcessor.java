@@ -15,9 +15,7 @@
  */
 package ch.rasc.constgen;
 
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.nio.charset.StandardCharsets;
+import java.io.Writer;
 import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
@@ -29,8 +27,7 @@ import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic;
-import javax.tools.FileObject;
-import javax.tools.StandardLocation;
+import javax.tools.JavaFileObject;
 
 import com.google.auto.service.AutoService;
 
@@ -70,13 +67,10 @@ public class ConstAnnotationProcessor extends AbstractProcessor {
 					CodeGenerator codeGen = new CodeGenerator(typeElement,
 							this.processingEnv.getElementUtils());
 
-					FileObject fo = this.processingEnv.getFiler().createResource(
-							StandardLocation.SOURCE_OUTPUT, codeGen.getPackageName(),
-							codeGen.getClassName() + ".java");
-					try (OutputStream os = fo.openOutputStream();
-							OutputStreamWriter osw = new OutputStreamWriter(os,
-									StandardCharsets.UTF_8)) {
-						codeGen.generate(osw);
+					JavaFileObject jfo = this.processingEnv.getFiler().createSourceFile(
+							codeGen.getPackageName() + "." + codeGen.getClassName());
+					try (Writer writer = jfo.openWriter()) {
+						codeGen.generate(writer);
 					}
 
 				}
