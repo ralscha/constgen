@@ -21,6 +21,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
+import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.annotation.processing.SupportedSourceVersion;
@@ -31,9 +32,12 @@ import javax.tools.Diagnostic;
 import javax.tools.FileObject;
 import javax.tools.StandardLocation;
 
+import com.google.auto.service.AutoService;
+
 @SupportedAnnotationTypes({ "org.springframework.data.mongodb.core.mapping.Document",
 		"org.mongodb.morphia.annotations.Entity" })
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
+@AutoService(Processor.class)
 public class ConstAnnotationProcessor extends AbstractProcessor {
 
 	private static final boolean ALLOW_OTHER_PROCESSORS_TO_CLAIM_ANNOTATIONS = false;

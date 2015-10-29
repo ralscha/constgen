@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -59,6 +60,13 @@
 			<version>1.3.0</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.google.auto.service</groupId>
+			<artifactId>auto-service</artifactId>
+			<version>1.0-rc2</version>
+			<optional>true</optional>
+		</dependency>
+
 		<!-- TEST dependencies -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -79,10 +87,10 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-		  <groupId>com.google.testing.compile</groupId>
-		  <artifactId>compile-testing</artifactId>
-		  <version>0.7</version>
-		  <scope>test</scope>
+			<groupId>com.google.testing.compile</groupId>
+			<artifactId>compile-testing</artifactId>
+			<version>0.8</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
@@ -93,7 +101,6 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.3</version>
 				<configuration>
-				    <proc>none</proc>
 					<source>1.8</source>
 					<target>1.8</target>
 				</configuration>
@@ -147,53 +154,6 @@
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-site-plugin</artifactId>
-				<version>3.4</version>
-				<configuration>
-					<reportPlugins>
-						<plugin>
-							<groupId>org.apache.maven.plugins</groupId>
-							<artifactId>maven-project-info-reports-plugin</artifactId>
-							<version>2.7</version>
-						</plugin>
-						<plugin>
-							<groupId>org.apache.maven.plugins</groupId>
-							<artifactId>maven-javadoc-plugin</artifactId>
-							<version>2.10.3</version>
-							<configuration>
-								<links>
-									<link>http://docs.spring.io/spring/docs/3.2.x/javadoc-api/</link>
-									<link>http://docs.oracle.com/javase/6/docs/api/</link>
-								</links>
-								<additionalparam>-Xdoclint:none</additionalparam>
-							</configuration>
-						</plugin>
-						<plugin>
-							<groupId>org.apache.maven.plugins</groupId>
-							<artifactId>maven-jxr-plugin</artifactId>
-							<version>2.4</version>
-						</plugin>
-						<plugin>
-							<groupId>org.apache.maven.plugins</groupId>
-							<artifactId>maven-pmd-plugin</artifactId>
-							<version>3.2</version>
-							<configuration>
-								<targetJdk>1.6</targetJdk>
-							</configuration>
-						</plugin>
-						<plugin>
-							<groupId>org.apache.maven.plugins</groupId>
-							<artifactId>maven-surefire-report-plugin</artifactId>
-							<version>2.18.1</version>
-						</plugin>
-
-					</reportPlugins>
-				</configuration>
-
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>2.6</version>
 			</plugin>
@@ -220,12 +180,13 @@
 						<email>ralphschaer@gmail.com</email>
 					</properties>
 					<excludes>
-					    <exclude>**/*.xml</exclude>
+						<exclude>**/*.xml</exclude>
 						<exclude>**/*.md</exclude>
 						<exclude>**/*.py</exclude>
 						<exclude>LICENSE</exclude>
 						<exclude>.travis.yml</exclude>
 						<exclude>**/.gitignore</exclude>
+						<exclude>.factorypath</exclude>
 					</excludes>
 					<strictCheck>true</strictCheck>
 				</configuration>
