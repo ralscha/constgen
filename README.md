@@ -65,44 +65,37 @@ The C classes help you to make this process a little less error prone. In an IDE
   * requires Java 8 to run.
   * scans for classes annotated with ```org.springframework.data.mongodb.core.mapping.Document``` or ```org.mongodb.morphia.annotations.Entity```.
   * ignores ```transient``` fields.
+  * ignores ```static``` fields.
   * ignores fields annotated with ```org.springframework.data.annotation.Transient``` or ```org.mongodb.morphia.annotations.Transient```.
   * takes into account the annotations ```org.springframework.data.mongodb.core.mapping.Field``` and ```org.mongodb.morphia.annotations.Property``` and uses the value of the annotation as value for the String constant. 
 
 
 ## Maven
 
-One way to call *constgen* from a maven build is by using the apt-maven-plugin from [Mysema](http://www.mysema.com/).
-This configuration will write the C classes to the directory ```target/generated-sources/java```
+To activate the annotation processor you add the library as a dependency to your pom.xml. 
+constgen does not need to present at runtime so the dependency can be marked as optional 
+and will not be included in an jar or war. 
+```
+		<dependency>
+			<groupId>ch.rasc</groupId>
+			<artifactId>constgen</artifactId>
+			<version>1.0.1</version>
+			<optional>true</optional>
+		</dependency>
+```
+Instead of ```<optional>true</optional>``` the provided scope ```<scope>provided</scope>``` can be specified. 
+It has the same effect and marks the library as compile-time only dependency. 
 
-```
-			<plugin>
-				<groupId>com.mysema.maven</groupId>
-				<artifactId>apt-maven-plugin</artifactId>
-				<version>1.1.3</version>
-				<executions>
-				    <execution>
-						<id>constantgen</id>
-						<goals>
-							<goal>process</goal>
-						</goals>
-						<configuration>
-							<processor>ch.rasc.constgen.ConstAnnotationProcessor</processor>
-							<outputDirectory>${project.basedir}/target/generated-sources/java</outputDirectory>
-						</configuration>				    
-				    </execution>					
-				</executions>
-				<dependencies>
-					<dependency>
-						<groupId>ch.rasc</groupId>
-						<artifactId>constgen</artifactId>
-						<version>1.0.0</version>
-					</dependency>				
-				</dependencies>
-			</plugin>
-```
+The [immutable](http://immutables.github.io) project has a good description 
+on how to [use annotation processors in Eclipse and IntelliJ](http://immutables.github.io/apt.html).
+
 
 
 ## Changelog
+
+### 1.0.1 - October 29, 2015
+  * Ignore static fields
+  * Generate code the correct way with JavaFileObject
 
 ### 1.0.0 - September 26, 2015
   * Initial release
