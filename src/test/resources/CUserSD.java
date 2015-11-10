@@ -30,6 +30,8 @@ public final class CUserSD {
 
   public static final String id = "id";
 
+  public static final String lastAccess = "lastAccess";  
+
   public static final String lastName = "lastName";
 
   public static final String locale = "locale";

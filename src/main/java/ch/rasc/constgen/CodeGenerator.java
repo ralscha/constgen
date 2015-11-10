@@ -112,10 +112,6 @@ public class CodeGenerator {
 	}
 
 	private boolean isTransient(VariableElement el) {
-		if (el.getModifiers().contains(Modifier.TRANSIENT)) {
-			return true;
-		}
-
 		for (AnnotationMirror am : this.elements.getAllAnnotationMirrors(el)) {
 			Name qualifiedName = ((TypeElement) am.getAnnotationType().asElement())
 					.getQualifiedName();

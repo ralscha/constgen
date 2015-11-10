@@ -108,6 +108,9 @@ To exclude constgen you need to add an exclude configuration.
 
 ## Changelog
 
+### 1.0.2 - tbd
+  * Do not ignore transient fields. Spring Data Mongo stores these fields
+
 ### 1.0.1 - October 29, 2015
   * Ignore static fields
   * Generate code the correct way with JavaFileObject
