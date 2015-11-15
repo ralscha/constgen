@@ -118,7 +118,9 @@ public class CodeGenerator {
 			if (qualifiedName
 					.contentEquals("org.springframework.data.annotation.Transient")
 					|| qualifiedName
-							.contentEquals("org.mongodb.morphia.annotations.Transient")) {
+							.contentEquals("org.mongodb.morphia.annotations.Transient")
+					|| qualifiedName
+							.contentEquals("ch.rasc.bsoncodec.annotation.Transient")) {
 				return true;
 			}
 		}
@@ -134,7 +136,9 @@ public class CodeGenerator {
 			if (qualifiedName
 					.contentEquals("org.springframework.data.mongodb.core.mapping.Field")
 					|| qualifiedName
-							.contentEquals("org.mongodb.morphia.annotations.Property")) {
+							.contentEquals("org.mongodb.morphia.annotations.Property")
+					|| qualifiedName
+							.contentEquals("ch.rasc.bsoncodec.annotation.Field")) {
 
 				alternateValue = am.getElementValues().entrySet().stream()
 						.filter(e -> e.getKey().getSimpleName().toString()
