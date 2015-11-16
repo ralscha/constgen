@@ -20,7 +20,6 @@ public class Constant implements Comparable<Constant> {
 	private final String value;
 
 	public Constant(String name, String value) {
-		super();
 		this.name = name;
 		this.value = value;
 	}
