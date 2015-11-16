@@ -32,7 +32,8 @@ import javax.tools.JavaFileObject;
 import com.google.auto.service.AutoService;
 
 @SupportedAnnotationTypes({ "org.springframework.data.mongodb.core.mapping.Document",
-		"org.mongodb.morphia.annotations.Entity", "ch.rasc.bsoncodec.annotation.BsonDocument" })
+		"org.mongodb.morphia.annotations.Entity",
+		"ch.rasc.bsoncodec.annotation.BsonDocument" })
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 @AutoService(Processor.class)
 public class ConstAnnotationProcessor extends AbstractProcessor {
@@ -59,13 +60,15 @@ public class ConstAnnotationProcessor extends AbstractProcessor {
 		for (TypeElement annotation : annotations) {
 			Set<? extends Element> elements = roundEnv
 					.getElementsAnnotatedWith(annotation);
+			boolean bsoncodecProject = annotation.getQualifiedName()
+					.contentEquals("ch.rasc.bsoncodec.annotation.BsonDocument");
 			for (Element element : elements) {
 
 				try {
 					TypeElement typeElement = (TypeElement) element;
 
 					CodeGenerator codeGen = new CodeGenerator(typeElement,
-							this.processingEnv.getElementUtils());
+							this.processingEnv.getElementUtils(), bsoncodecProject);
 
 					JavaFileObject jfo = this.processingEnv.getFiler().createSourceFile(
 							codeGen.getPackageName() + "." + codeGen.getClassName());

@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
@@ -44,12 +45,16 @@ public class CodeGenerator {
 
 	private final Elements elements;
 
-	public CodeGenerator(TypeElement typeElement, Elements elements) {
+	private final boolean bsoncodecProject;
+
+	public CodeGenerator(TypeElement typeElement, Elements elements,
+			boolean bsoncodecProject) {
 		this.typeElement = typeElement;
 		this.packageName = elements.getPackageOf(typeElement).getQualifiedName()
 				.toString();
 		this.className = "C" + typeElement.getSimpleName();
 		this.elements = elements;
+		this.bsoncodecProject = bsoncodecProject;
 	}
 
 	public String getPackageName() {
@@ -150,12 +155,28 @@ public class CodeGenerator {
 			else if (qualifiedName.contentEquals("ch.rasc.bsoncodec.annotation.Id")) {
 				alternateValue = "_id";
 			}
-			//todo with bsoncodec we also need to set alternatevalue to _id when name of field is id without Id annotation
 		}
 		if (alternateValue == null) {
-			return el.getSimpleName().toString();
+			String simpleName = el.getSimpleName().toString();
+			if (bsoncodecProject) {
+				if ("id".equals(simpleName)) {
+					return "_id";
+				}
+				if (isObjectId(el) || isUUID(el)) {
+					return "_id";
+				}
+			}
+			return simpleName;
 		}
 		return alternateValue;
+	}
+
+	private static boolean isUUID(Element field) {
+		return field.asType().toString().equals(UUID.class.getCanonicalName());
+	}
+
+	private static boolean isObjectId(Element field) {
+		return field.asType().toString().equals("org.bson.types.ObjectId");
 	}
 
 }
