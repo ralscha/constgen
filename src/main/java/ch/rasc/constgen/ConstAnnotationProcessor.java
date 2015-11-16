@@ -32,7 +32,7 @@ import javax.tools.JavaFileObject;
 import com.google.auto.service.AutoService;
 
 @SupportedAnnotationTypes({ "org.springframework.data.mongodb.core.mapping.Document",
-		"org.mongodb.morphia.annotations.Entity" })
+		"org.mongodb.morphia.annotations.Entity", "ch.rasc.bsoncodec.annotation.BsonDocument" })
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 @AutoService(Processor.class)
 public class ConstAnnotationProcessor extends AbstractProcessor {
