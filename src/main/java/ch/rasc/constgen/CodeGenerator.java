@@ -147,6 +147,10 @@ public class CodeGenerator {
 						.filter(s -> !".".equals(s) && !"".equals(s.trim())).findAny()
 						.orElse(null);
 			}
+			else if (qualifiedName.contentEquals("ch.rasc.bsoncodec.annotation.Id")) {
+				alternateValue = "_id";
+			}
+			//todo with bsoncodec we also need to set alternatevalue to _id when name of field is id without Id annotation
 		}
 		if (alternateValue == null) {
 			return el.getSimpleName().toString();
