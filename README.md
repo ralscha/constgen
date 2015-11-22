@@ -79,7 +79,7 @@ and will not be included in an jar or war.
 	<dependency>
 		<groupId>ch.rasc</groupId>
 		<artifactId>constgen</artifactId>
-		<version>1.0.1</version>
+		<version>1.0.2</version>
 		<optional>true</optional>
 	</dependency>
 ```
@@ -108,9 +108,9 @@ To exclude constgen you need to add an exclude configuration.
 
 ## Changelog
 
-### 1.0.2 - tbd
-  * Do not ignore transient fields. Spring Data Mongo stores these fields
-  * Take annotations (Field and Transient) from [bsoncodec-apt](https://github.com/ralscha/bsoncodec-apt) into account
+### 1.0.2 - November 22, 2015
+  * Do not ignore transient fields. Spring Data Mongo stores these fields.
+  * Support annotations (Field and Transient) from [bsoncodec-apt](https://github.com/ralscha/bsoncodec-apt) into account
 
 ### 1.0.1 - October 29, 2015
   * Ignore static fields
@@ -119,13 +119,15 @@ To exclude constgen you need to add an exclude configuration.
 ### 1.0.0 - September 26, 2015
   * Initial release
 
-## License
 
+## License
 Code released under [the Apache license](http://www.apache.org/licenses/).
+
 
 ## Links
   * [Spring Data MongoDB](http://projects.spring.io/spring-data-mongodb/)
   * [Morphia](https://github.com/mongodb/morphia)
+  * [bsoncodec-apt](https://github.com/ralscha/bsoncodec-apt)
   * [Mongo Java Driver](https://github.com/mongodb/mongo-java-driver)
   * [MongoDB](https://www.mongodb.org/)
 
