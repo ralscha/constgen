@@ -19,7 +19,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
@@ -162,21 +161,10 @@ public class CodeGenerator {
 				if ("id".equals(simpleName)) {
 					return "_id";
 				}
-				if (isObjectId(el) || isUUID(el)) {
-					return "_id";
-				}
 			}
 			return simpleName;
 		}
 		return alternateValue;
-	}
-
-	private static boolean isUUID(Element field) {
-		return field.asType().toString().equals(UUID.class.getCanonicalName());
-	}
-
-	private static boolean isObjectId(Element field) {
-		return field.asType().toString().equals("org.bson.types.ObjectId");
 	}
 
 }
