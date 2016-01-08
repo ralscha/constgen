@@ -109,7 +109,7 @@ To exclude constgen you need to add an exclude configuration.
 ## Changelog
 
 ### 1.0.3 - tbd
-  * Resolves issue #1
+  * Resolves issue [#1](https://github.com/ralscha/constgen/issues/1)
 
 ### 1.0.2 - November 22, 2015
   * Do not ignore transient fields. Spring Data Mongo stores these fields.
