@@ -108,9 +108,12 @@ To exclude constgen you need to add an exclude configuration.
 
 ## Changelog
 
+### 1.0.3 - tbd
+  * Resolves issue #1
+
 ### 1.0.2 - November 22, 2015
   * Do not ignore transient fields. Spring Data Mongo stores these fields.
-  * Support annotations (Field and Transient) from [bsoncodec-apt](https://github.com/ralscha/bsoncodec-apt) into account
+  * Support annotations (Field and Transient) from [bsoncodec-apt](https://github.com/ralscha/bsoncodec-apt)
 
 ### 1.0.1 - October 29, 2015
   * Ignore static fields
