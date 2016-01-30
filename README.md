@@ -79,7 +79,7 @@ and will not be included in an jar or war.
 	<dependency>
 		<groupId>ch.rasc</groupId>
 		<artifactId>constgen</artifactId>
-		<version>1.0.2</version>
+		<version>1.0.3</version>
 		<optional>true</optional>
 	</dependency>
 ```
@@ -108,7 +108,7 @@ To exclude constgen you need to add an exclude configuration.
 
 ## Changelog
 
-### 1.0.3 - tbd
+### 1.0.3 - January 30, 2016
   * Resolves issue [#1](https://github.com/ralscha/constgen/issues/1)
 
 ### 1.0.2 - November 22, 2015
