@@ -82,7 +82,7 @@
 		<dependency>
 			<groupId>org.mongodb.morphia</groupId>
 			<artifactId>morphia</artifactId>
-			<version>1.2.1</version>
+			<version>1.3.0-rc0</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -194,6 +194,7 @@
 						<exclude>.factorypath</exclude>
 						<exclude>.mvn/**/*</exclude>
 						<exclude>mvnw.cmd</exclude>
+						<exclude>mvnw</exclude>
 					</excludes>
 					<strictCheck>true</strictCheck>
 				</configuration>
