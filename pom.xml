@@ -56,7 +56,7 @@
 		<dependency>
 			<groupId>com.squareup</groupId>
 			<artifactId>javapoet</artifactId>
-			<version>1.7.0</version>
+			<version>1.8.0</version>
 		</dependency>
 
 		<dependency>
@@ -82,7 +82,7 @@
 		<dependency>
 			<groupId>org.mongodb.morphia</groupId>
 			<artifactId>morphia</artifactId>
-			<version>1.3.0-rc0</version>
+			<version>1.3.0</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
