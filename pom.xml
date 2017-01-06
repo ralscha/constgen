@@ -76,7 +76,7 @@
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-mongodb</artifactId>
-			<version>1.9.5.RELEASE</version>
+			<version>1.9.6.RELEASE</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -181,7 +181,7 @@
 					<properties>
 						<owner>Ralph Schaer</owner>
 						<year>${project.inceptionYear}</year>
-						<currentYear>2016</currentYear>
+						<currentYear>2017</currentYear>
 						<email>ralphschaer@gmail.com</email>
 					</properties>
 					<excludes>
