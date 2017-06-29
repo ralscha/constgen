@@ -157,7 +157,7 @@ public class CodeGenerator {
 		}
 		if (alternateValue == null) {
 			String simpleName = el.getSimpleName().toString();
-			if (bsoncodecProject) {
+			if (this.bsoncodecProject) {
 				if ("id".equals(simpleName)) {
 					return "_id";
 				}
