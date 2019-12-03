@@ -1,6 +1,6 @@
 ## constgen
 
-[![Build Status](https://api.travis-ci.org/ralscha/constgen.png)](https://travis-ci.org/ralscha/constgen)
+![Test Status](https://github.com/ralscha/constgen/workflows/test/badge.svg)
 
 ## Overview
 
