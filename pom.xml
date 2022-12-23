@@ -92,7 +92,7 @@
 		<dependency>
 			<groupId>com.google.testing.compile</groupId>
 			<artifactId>compile-testing</artifactId>
-			<version>0.19</version>
+			<version>0.21.0</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -171,7 +171,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.2.0</version>
+				<version>3.4.0</version>
 				<configuration>
 					<additionalOptions>-Xdoclint:none</additionalOptions>
 				</configuration>
