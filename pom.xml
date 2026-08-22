@@ -80,7 +80,7 @@
     <dependency>
       <groupId>org.springframework.data</groupId>
       <artifactId>spring-data-mongodb</artifactId>
-      <version>5.1.0</version>
+      <version>5.1.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
